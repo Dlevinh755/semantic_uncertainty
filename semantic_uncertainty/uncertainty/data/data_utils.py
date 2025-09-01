@@ -101,7 +101,7 @@ def load_ds(dataset_name, seed, add_options=None):
     elif dataset_name == "vihallu-warmup":
         import pandas as pd
         # Đọc file CSV, mặc định tìm ở thư mục hiện tại hoặc working dir
-        csv_path = 'vihallu-warmup.csv'
+        csv_path = '/kaggle/input/nature/semantic_uncertainty/uncertainty/data/vihallu-warmup.csv'
         df = pd.read_csv(csv_path)
         # Chuyển đổi thành list các dict theo format chuẩn
         def convert_row(row):
