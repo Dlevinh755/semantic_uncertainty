@@ -92,6 +92,7 @@ class HuggingfaceModel(BaseModel):
 
         if stop_sequences == 'default':
             stop_sequences = STOP_SEQUENCES
+        
 
         if 'llama' in model_name.lower():
 
@@ -122,6 +123,12 @@ class HuggingfaceModel(BaseModel):
                     f"{base}/{model_name}", device_map="auto",
                     max_memory={0: '80GIB'}, **kwargs,)
 
+            elif 'qwen' in model_name.lower():
+                model_id = f"Qwen/{model_name.split('/')[-1]}"
+                self.tokenizer = AutoTokenizer.from_pretrained(
+                    model_id, device_map='auto', trust_remote_code=True)
+                self.model = AutoModelForCausalLM.from_pretrained(
+                    model_id, device_map='auto', trust_remote_code=True)
             elif llama2_70b or llama65b:
                 path = snapshot_download(
                     repo_id=f'{base}/{model_name}',
