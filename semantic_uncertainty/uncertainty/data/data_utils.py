@@ -98,6 +98,25 @@ def load_ds(dataset_name, seed, add_options=None):
         dataset = dataset.train_test_split(test_size=0.8, seed=seed)
         train_dataset = dataset['train']
         validation_dataset = dataset['test']
+    elif dataset_name == "vihallu-warmup":
+        import pandas as pd
+        # Đọc file CSV, mặc định tìm ở thư mục hiện tại hoặc working dir
+        csv_path = 'vihallu-warmup.csv'
+        df = pd.read_csv(csv_path)
+        # Chuyển đổi thành list các dict theo format chuẩn
+        def convert_row(row):
+            return {
+                'question': row['prompt'],
+                'context': row['context'],
+                'answers': {'text': [str(row['response'])]},
+                'id': row['id'],
+                'label': row.get('label', None)
+            }
+        data = [convert_row(row) for _, row in df.iterrows()]
+        # Chia train/test (80/20)
+        from sklearn.model_selection import train_test_split
+        train_dataset, validation_dataset = train_test_split(data, test_size=0.2, random_state=seed)
+        return list(train_dataset), list(validation_dataset)
 
     else:
         raise ValueError
