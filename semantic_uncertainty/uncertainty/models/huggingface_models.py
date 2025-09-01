@@ -196,6 +196,12 @@ class HuggingfaceModel(BaseModel):
                 device_map='auto',
                 **kwargs,
             )
+        elif 'qwen' in model_name.lower():
+            model_id = f"Qwen/{model_name.split('/')[-1]}"
+            self.tokenizer = AutoTokenizer.from_pretrained(
+                model_id, device_map='auto', trust_remote_code=True)
+            self.model = AutoModelForCausalLM.from_pretrained(
+                model_id, device_map='auto', trust_remote_code=True)
         else:
             raise ValueError
 
