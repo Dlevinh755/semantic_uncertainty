@@ -38,6 +38,8 @@ def main(args):
     if not os.path.exists(f"{scratch_dir}/{user}/uncertainty"):
         os.makedirs(f"{scratch_dir}/{user}/uncertainty")
 
+    if os.environ.get("WANDB_DISABLED", "false").lower() == "true":
+        os.environ["WANDB_MODE"] = "disabled"
     wandb.init(
         entity=args.entity,
         project="semantic_uncertainty" if not args.debug else "semantic_uncertainty_debug",
