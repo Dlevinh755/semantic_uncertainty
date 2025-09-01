@@ -197,11 +197,11 @@ class HuggingfaceModel(BaseModel):
                 **kwargs,
             )
         elif 'qwen' in model_name.lower():
-            model_id = f"Qwen/{model_name.split('/')[-1]}"
+            # Hỗ trợ Qwen 7B và các model Qwen khác từ Hugging Face
             self.tokenizer = AutoTokenizer.from_pretrained(
-                model_id, device_map='auto', trust_remote_code=True)
+                model_name, device_map='auto', trust_remote_code=True)
             self.model = AutoModelForCausalLM.from_pretrained(
-                model_id, device_map='auto', trust_remote_code=True)
+                model_name, device_map='auto', trust_remote_code=True)
         else:
             raise ValueError
 
